@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Slider</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        .slider {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: auto;
+            overflow: hidden;
+        }
+        .videos {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        .videos video {
+            width: 100%;
+            display: none;
+        }
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 10px;
+            cursor: pointer;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+        }
+        .arrow.left {
+            left: 10px;
+        }
+        .arrow.right {
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="slider">
+    <div class="videos" id="videos">
+        <video src="your-video1.mp4" controls></video>
+        <video src="your-video2.mp4" controls></video>
+        <video src="your-video3.mp4" controls></video>
+        <video src="your-video4.mp4" controls></video>
+        <video src="your-video5.mp4" controls></video>
+        <video src="your-video6.mp4" controls></video>
+    </div>
+    <button class="arrow left" onclick="prevVideo()">&#10094;</button>
+    <button class="arrow right" onclick="nextVideo()">&#10095;</button>
+</div>
+
+<script>
+    let currentVideo = 0;
+    const videos = document.querySelectorAll('.videos video');
+
+    function showVideo(index) {
+        videos.forEach((video, i) => {
+            video.style.display = i === index ? 'block' : 'none';
+            video.pause();
+            video.currentTime = 0;
+        });
+        videos[index].play();
+    }
+
+    function nextVideo() {
+        currentVideo = (currentVideo + 1) % videos.length;
+        showVideo(currentVideo);
+    }
+
+    function prevVideo() {
+        currentVideo = (currentVideo - 1 + videos.length) % videos.length;
+        showVideo(currentVideo);
+    }
+
+    // Initially show the first video
+    showVideo(currentVideo);
+</script>
+
+</body>
+</html>
